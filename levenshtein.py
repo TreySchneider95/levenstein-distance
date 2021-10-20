@@ -78,3 +78,4 @@ def levenshtein_distance(wrd1, wrd2):
 
 # print(levenshtein_distance('', 'test'))
 print(sentence_in('this is not not a test', 'this is a a test', space_removal=True))
+print(CACHE_DICT)

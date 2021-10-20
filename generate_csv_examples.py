@@ -1,6 +1,6 @@
 import csv, string
 from copy import copy
-from levenstein import calc_lev
+from levenshtein import levenshtein_distance
 
 def clean_text(wd):
 	wd = wd.strip().lower()
@@ -13,6 +13,6 @@ with open('data/random_text.txt', 'r') as wds_file:
 
 with open('data/wordlist.csv','w') as wdlist:
 	for wd1, wd2 in zip(words_copy, words):
-		dist = calc_lev(wd1, wd2)
+		dist = levenshtein_distance(wd1, wd2)
 		writer = csv.writer(wdlist)
 		writer.writerow([wd1, wd2,str(dist)])
