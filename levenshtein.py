@@ -6,25 +6,38 @@ two words.
 CACHE_DICT = {}
 
 def sentence_in(stmnt1, stmnt2, space_removal = False, case_sensitive = False):
+    """
+    Takes in sentences and breaks them down to be ran through levenshtein_distance
+    function. If space_removal is False it'll compare the whole sentence to the
+    other sentence, if True it'll compare word by word. If case_sensitive is False
+    it'll ignore case and if it is True it'll add a point if case is different.
+    """
+    # case sensitive logic
     if not case_sensitive:
         stmnt1 = stmnt1.lower()
         stmnt2 = stmnt2.lower()
+    # if space_removal = False
     if not space_removal:
         return levenshtein_distance(stmnt1, stmnt2)
+    # if space_removal = True
     else:
         lst1 = stmnt1.split()
         lst2 = stmnt2.split()
         counter = 0
         diff_num = len(lst1) - len(lst2)
+        # iterate through list 1
         for word in range(len(lst1)):
+            # logic falls into this if first sentence is shorter
             if diff_num <= 0 and word == len(lst1)-1:
                 counter += levenshtein_distance(lst1[word], lst2[word])
                 for remainder in lst2[len(lst1):]:
                     counter += levenshtein_distance('', remainder)
+            # logic falls into this if second sentence is shorter
             elif diff_num > 0 and word == len(lst2):
                 for remainder in lst1[len(lst2):]:
                     counter += levenshtein_distance(remainder, '')
                 break
+            # runs untill done or found that one sentence is shorter than the other
             else:
                 counter += levenshtein_distance(lst1[word], lst2[word])
         return counter
@@ -69,6 +82,7 @@ def levenshtein_distance(wrd1, wrd2):
             counter += len(wrd1[len(wrd2):])
             CACHE_DICT[wrd1 + '|' + wrd2] = steps_list
             return counter
+    # logic for if there is no first word (edge case)
     if not wrd1_dict:
         if len(wrd2[len(wrd1):]) > 0:
             print(f'insert "{wrd2[len(wrd1):]}" - {len(wrd2[len(wrd1):])}')
@@ -77,5 +91,4 @@ def levenshtein_distance(wrd1, wrd2):
         CACHE_DICT[wrd1 + '|' + wrd2] = steps_list
         return counter
 
-# print(levenshtein_distance('', 'test'))
 print(sentence_in('this is not a little test', 'this is a an test', space_removal=True))
