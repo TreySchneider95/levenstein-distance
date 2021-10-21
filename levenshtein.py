@@ -47,8 +47,9 @@ def levenshtein_distance(wrd1, wrd2):
     Calculates the levenshtein distance between two words and prints the steps
     """
     counter = 0
+    # cache logic
     if wrd1 + '|' + wrd2 in CACHE_DICT:
-        for x in CACHE_DICT[wrd1+wrd2]:
+        for x in CACHE_DICT[wrd1+ '|' +wrd2]:
             print('CACHE:' + ' ' + x)
             counter += int(x[-1:])
         return counter
